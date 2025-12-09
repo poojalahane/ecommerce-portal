@@ -7,11 +7,12 @@ import authRoutes from "./routes/authRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
+import mongoSanitize from "express-mongo-sanitize";
 
 import mongoose from "mongoose";
 
 //! configure env
-dotenv.config();
+dotenv.config({ path: "./config/.env" });
 
 //! rest object
 const app = express();
@@ -20,13 +21,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(mongoSanitize());
 
-const url = `mongodb+srv://pujalahane2024:uXRflwkhAA58OYgC@cluster0.xiixj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://pujalahane2024:E8iaiZgVESaeoiu5@cluster0.ik7zs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    );
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("mongoDB connected successfully...");
   } catch (error) {
     console.log(error);

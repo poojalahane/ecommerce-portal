@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import Layout from "./component/Layout/Layout";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -19,7 +18,6 @@ import Profile from "./pages/user/Profile";
 import Orders from "./pages/user/Orders";
 import Product from "./pages/Admin/Product";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
-import SearchInput from "./component/Form/SearchInput";
 import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import Categories from "./pages/Categories";
