@@ -9,14 +9,12 @@ const Product = () => {
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/product/get-all"
+        `${process.env.REACT_APP_API}/api/v1/product/get-all`
       );
       if (data?.success) {
-        setProducts(data.products);
+        setProducts(data.data.products);
       }
-      //console.log(data.products);
     } catch (error) {
-      console.log(error);
       toast.error("something went wrong while getting products..");
     }
   };
@@ -41,7 +39,7 @@ const Product = () => {
                 >
                   <div className="card m-2" style={{ width: "18rem" }}>
                     <img
-                      src={`http://localhost:5000/api/v1/product/product-photo/${p._id}`}
+                      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
                       className="card-img-top"
                       alt={p.name}
                     />

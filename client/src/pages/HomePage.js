@@ -23,30 +23,28 @@ const HomePage = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/product/product-list/${page}`
+        `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
       );
       setLoading(false);
       if (data.success) {
-        setProducts(data.products);
+        setProducts(data.data.products);
       }
-      //console.log(data);
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      alert("Something went wrong");
     }
   };
 
   const getAllCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/category/get-all"
+        `${process.env.REACT_APP_API}/api/v1/category/get-all`
       );
       if (data.success) {
-        setCategories(data.category);
-        //console.log(data.category);
+        setCategories(data.data.category);
       }
     } catch (error) {
-      console.log(error);
+      alert("Something went wrong");
     }
   };
 
@@ -59,11 +57,11 @@ const HomePage = () => {
   const getTotal = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/product/product-count"
+        `${process.env.REACT_APP_API}/api/v1/product/product-count`
       );
-      setTotal(data?.total);
+      setTotal(data?.data.total);
     } catch (error) {
-      console.log(error);
+      alert("Something went wrong");
     }
   };
 
@@ -76,12 +74,12 @@ const HomePage = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/product/product-list/${page}`
+        `${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`
       );
       setLoading(false);
-      setProducts([...products, ...data?.products]);
+      setProducts([...products, ...data?.data.products]);
     } catch (error) {
-      console.log(error);
+      alert("Something went wrong");
     }
   };
 
@@ -114,15 +112,15 @@ const HomePage = () => {
   const filterProduct = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/product/product-filters",
+        `${process.env.REACT_APP_API}/api/v1/product/product-filters`,
         {
           checked,
           radio,
         }
       );
-      setProducts(data?.products);
+      setProducts(data?.data.products);
     } catch (error) {
-      console.log(error);
+      alert("Something went wrong");
     }
   };
 
@@ -168,7 +166,7 @@ const HomePage = () => {
               <>
                 <div className="card m-2" style={{ width: "18rem" }}>
                   <img
-                    src={`http://localhost:5000/api/v1/product/product-photo/${p._id}`}
+                    src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
                     className="card-img-top"
                     alt={p.name}
                   />

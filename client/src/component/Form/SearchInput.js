@@ -9,11 +9,10 @@ const SearchInput = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      //console.log(values.keyword);
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/product/search/${values.keyword}`
+        `${process.env.REACT_APP_API}/api/v1/product/search/${values.keyword}`
       );
-      setValues({ ...values, results: data });
+      setValues({ ...values, results: data.data });
       navigate("/search");
     } catch (error) {
       console.log(error);

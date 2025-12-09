@@ -30,26 +30,25 @@ const Login = () => {
     setError(" ");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/login",
+        `${process.env.REACT_APP_API}/api/v1/auth/login`,
         formData
       );
-      alert(response.data.message);
-      setAuth({
-        ...auth,
-        user: response.data.user,
-        token: response.data.token,
-      });
-      localStorage.setItem("auth", JSON.stringify(response.data));
-      navigate(location.state || "/");
-      //console.log(response.data.user);
       setLoading(false);
-      setFormData({
-        password: "",
-        email: "your email",
-      });
-      navigate("/");
+      if (response.data.success) {
+        alert(response.data.message);
+        setAuth({
+          ...auth,
+          user: response.data.data.user,
+          token: response.data.data.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(response.data.data));
+        navigate(location.state || "/");
+      } else {
+        alert(response.data.message);
+      }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      alert("Something went wrong");
     }
   };
   return (

@@ -23,13 +23,12 @@ const CreateProduct = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/category/get-all"
+        `${process.env.REACT_APP_API}/api/v1/category/get-all`
       );
       if (data?.success) {
-        setCategories(data?.category);
+        setCategories(data?.data.category);
       }
     } catch (error) {
-      console.log(error);
       toast.error("Something wwent wrong in getting catgeory");
     }
   };
@@ -49,18 +48,17 @@ const CreateProduct = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.post(
-        "http://localhost:5000/api/v1/product/create-product",
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/product/create-product`,
         productData
       );
       if (data?.success) {
-        toast.error(data?.message);
-      } else {
         toast.success("Product Created Successfully");
         navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error("something went wrong");
     }
   };
