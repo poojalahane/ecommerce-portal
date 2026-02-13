@@ -12,12 +12,10 @@ const ProductDetails = () => {
   //! get similar product
   const getSimilarProduct = async (pid, cid) => {
     try {
-      console.log(cid);
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/product/related-product/${pid}/${cid}`
+        `${process.env.REACT_APP_API}/api/v1/product/related-product/${pid}/${cid}`
       );
-      console.log(data);
-      setRelatedProducts(data?.products);
+      setRelatedProducts(data?.data.products);
     } catch (error) {
       console.log(error);
     }
@@ -27,13 +25,12 @@ const ProductDetails = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/product/get-single/${params.slug}`
+        `${process.env.REACT_APP_API}/api/v1/product/get-single/${params.slug}`
       );
       if (data.success) {
-        setProduct(data?.product);
-        getSimilarProduct(data?.product._id, data?.product.category);
+        setProduct(data?.data.product);
+        getSimilarProduct(data?.data.product._id, data?.data.product.category._id);
       }
-      //console.log(data.products);
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +45,7 @@ const ProductDetails = () => {
         <div className="col-md-6">
           <>
             <img
-              src={`http://localhost:5000/api/v1/product/product-photo/${product._id}`}
+              src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${product._id}`}
               className="card-img-top"
               alt={product.name}
               height={300}
@@ -78,7 +75,7 @@ const ProductDetails = () => {
             <>
               <div className="card m-2" style={{ width: "18rem" }}>
                 <img
-                  src={`http://localhost:5000/api/v1/product/product-photo/${p._id}`}
+                  src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
                   className="card-img-top"
                   alt={p.name}
                 />

@@ -25,17 +25,15 @@ const UpdateProduct = () => {
   const getSingleProduct = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/v1/product/get-single/${params.slug}`
+        `${process.env.REACT_APP_API}/api/v1/product/get-single/${params.slug}`
       );
-      //console.log(data);
-      setName(data.products.name);
-      setId(data.products._id);
-      setDescription(data.products.description);
-      setPrice(data.products.price);
-      setPrice(data.products.price);
-      setQuantity(data.products.quantity);
-      setShipping(data.products.shipping);
-      setCategory(data.products.category.name);
+      setName(data.data.product.name);
+      setId(data.data.product._id);
+      setDescription(data.data.product.description);
+      setPrice(data.data.product.price);
+      setQuantity(data.data.product.quantity);
+      setShipping(data.data.product.shipping);
+      setCategory(data.data.product.category._id);
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +43,18 @@ const UpdateProduct = () => {
     //eslint-disable-next-line
   }, []);
   //get all category
-  const getAllCategory = async () => {};
+  const getAllCategory = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/category/get-all`
+      );
+      if (data?.success) {
+        setCategories(data?.data.category);
+      }
+    } catch (error) {
+      toast.error("Something wwent wrong in getting catgeory");
+    }
+  };
 
   useEffect(() => {
     getAllCategory();
@@ -62,22 +71,17 @@ const UpdateProduct = () => {
       productData.append("quantity", quantity);
       photo && productData.append("photo", photo);
       productData.append("category", category);
-      //  console.log("pooja");
-      // console.log(productData);
-      // console.log(FormData);
-      const { data } = axios.put(
-        `http://localhost:5000/api/v1/product/update-single/${id}`,
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_API}/api/v1/product/update-single/${id}`,
         productData
       );
-      console.log(data);
       if (data?.success) {
-        toast.error(data?.message);
-      } else {
         toast.success("Product Updated Successfully");
         navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error("something went wrong");
     }
   };
@@ -87,15 +91,12 @@ const UpdateProduct = () => {
     try {
       let answer = window.prompt("Are You Sure want to delete this product ? ");
       if (!answer) return;
-      //console.log(answer);
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/v1/product/delete-single/${id}`
+      await axios.delete(
+        `${process.env.REACT_APP_API}/api/v1/product/delete-single/${id}`
       );
-      // console.log(answer);
       toast.success("Product Deleted Succfully");
       navigate("/dashboard/admin/products");
     } catch (error) {
-      console.log(error);
       toast.error("Something went wrong");
     }
   };
@@ -151,7 +152,7 @@ const UpdateProduct = () => {
                 ) : (
                   <div className="text-center">
                     <img
-                      src={`/api/v1/product/product-photo/${id}`}
+                      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${id}`}
                       alt="product_photo"
                       height={"200px"}
                       className="img img-responsive"

@@ -29,8 +29,8 @@ export const registerController = async (req, res) => {
     const existingUser = await userModel.findOne({ email });
     //! existing user
     if (existingUser) {
-      return res.status(200).send({
-        success: true,
+      return res.status(409).send({
+        success: false,
         message: "Already Register please login",
       });
     }
@@ -79,7 +79,7 @@ export const loginController = async (req, res) => {
 
     const match = await comparePassword(password, user.password);
     if (!match) {
-      return res.status(200).send({
+      return res.status(401).send({
         success: false,
         message: "Invalid Password",
       });
@@ -93,14 +93,16 @@ export const loginController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "User login Successfully...",
-      user: {
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-        role: user.role,
+      data: {
+        user: {
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          address: user.address,
+          role: user.role,
+        },
+        token,
       },
-      token,
     });
   } catch (error) {
     console.log(error);

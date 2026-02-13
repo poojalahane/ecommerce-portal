@@ -45,10 +45,9 @@ export const createProductController = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "Product Created Successfully",
-      product,
+      data: { product },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error while creating product..",
@@ -66,11 +65,12 @@ export const getAllProductController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "All the products",
-      count: products.length,
-      products,
+      data: {
+        count: products.length,
+        products,
+      },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "error while getting all products",
@@ -85,11 +85,9 @@ export const getSingleProductController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "get single product",
-
-      product,
+      data: { product },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "error while getting single product",
@@ -105,11 +103,9 @@ export const deleteSingleProductController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "delete single product",
-
-      products,
+      data: { products },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "error while deleting single product",

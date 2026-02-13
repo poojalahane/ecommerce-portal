@@ -21,12 +21,9 @@ export const createCategoryController = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "Category Created Successfully..",
-      category,
+      data: { category },
     });
-    // console.log(category);
   } catch (error) {
-    console.log("Error while creating category...");
-    console.log(error);
     res.status(500).send({
       success: false,
       error,
@@ -39,14 +36,12 @@ export const getSingleCategoryController = async (req, res) => {
   try {
     const { slug } = req.params;
     const category = await categoryModal.findOne({ slug });
-    console.log(category);
     res.status(200).send({
       success: true,
       message: "get the single category",
-      category,
+      data: { category },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error while getting category",
@@ -57,15 +52,15 @@ export const getSingleCategoryController = async (req, res) => {
 export const getAllCategoryController = async (req, res) => {
   try {
     const category = await categoryModal.find({});
-    console.log(category);
     res.status(200).send({
       success: true,
       message: "get the all category",
-      count: category.length,
-      category,
+      data: {
+        count: category.length,
+        category,
+      },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error while getting all category",
@@ -76,14 +71,12 @@ export const deleteSingleCategoryController = async (req, res) => {
   try {
     const { id } = req.params;
     const category = await categoryModal.findByIdAndDelete(id);
-    console.log(category);
     res.status(200).send({
       success: true,
       message: "Successfully Deleted Single category",
-      category,
+      data: { category },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error while deleting single category",
@@ -102,14 +95,12 @@ export const updateSingleCategoryController = async (req, res) => {
       },
       { new: true }
     );
-    console.log(category);
     res.status(200).send({
       success: true,
       message: "Successfully Updated Single category",
-      category,
+      data: { category },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error while updatingting single category",

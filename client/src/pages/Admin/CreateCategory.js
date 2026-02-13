@@ -18,7 +18,7 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/category/create-category",
+        `${process.env.REACT_APP_API}/api/v1/category/create-category`,
         {
           name,
         }
@@ -30,7 +30,6 @@ const CreateCategory = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error("somthing went wrong in input form");
     }
   };
@@ -39,13 +38,12 @@ const CreateCategory = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/category/get-all"
+        `${process.env.REACT_APP_API}/api/v1/category/get-all`
       );
       if (data.success) {
-        setCategories(data.category);
+        setCategories(data.data.category);
       }
     } catch (error) {
-      console.log(error);
       toast.error("Something wwent wrong in getting catgeory");
     }
   };
@@ -59,7 +57,7 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/v1/category/update-single/${selected._id}`,
+        `${process.env.REACT_APP_API}/api/v1/category/update-single/${selected._id}`,
         { name: updatedName }
       );
       if (data.success) {
@@ -79,7 +77,7 @@ const CreateCategory = () => {
   const handleDelete = async (pId) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:5000/api/v1/category/delete-single/${pId}`
+        `${process.env.REACT_APP_API}/api/v1/category/delete-single/${pId}`
       );
       if (data.success) {
         toast.success(`category is deleted`);

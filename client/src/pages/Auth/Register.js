@@ -29,23 +29,19 @@ const Register = () => {
     setError(" ");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        `${process.env.REACT_APP_API}/api/v1/auth/register`,
         formData
       );
-      alert(response.data.message);
-      console.log(response.data.user);
       setLoading(false);
-      setFormData({
-        name: "",
-        phone: "",
-        password: "",
-        email: "",
-        address: "",
-        answer: "",
-      });
-      navigate("/login");
+      if (response.data.success) {
+        alert(response.data.message);
+        navigate("/login");
+      } else {
+        alert(response.data.message);
+      }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      alert("Something went wrong");
     }
   };
   return (
